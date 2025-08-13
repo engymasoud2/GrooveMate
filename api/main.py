@@ -4,4 +4,4 @@ app = FastAPI()
 
 @app.get("/")
 def diffHello():
-    return {"message" : "Hello World"}
+    return {"message" : "sup this is the new an updated message"}
