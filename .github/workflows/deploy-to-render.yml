@@ -7,6 +7,7 @@ on:
 
 jobs:
   deploy:
+    working-directory: ./api
     runs-on: ubuntu-latest
 
     steps:
