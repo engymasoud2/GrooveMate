@@ -59,11 +59,20 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: eas whoami
 
-      - name: Install Android SDK
+      - name: Install Android Command Line Tools
         run: |
-          brew install --cask android-sdk
-          export ANDROID_HOME=/usr/local/share/android-sdk
-          export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH
+          curl -o commandlinetools.zip https://dl.google.com/android/repository/commandlinetools-mac-8512546_latest.zip
+          unzip commandlinetools.zip -d $HOME/Android/cmdline-tools
+          mkdir -p $HOME/Android/sdk
+          mv $HOME/Android/cmdline-tools $HOME/Android/sdk/cmdline-tools/latest
+
+      - name: Set Android SDK environment variables
+        run: |
+          echo "ANDROID_HOME=$HOME/Android/sdk" >> $GITHUB_ENV
+          echo "PATH=$HOME/Android/sdk/cmdline-tools/latest/bin:$HOME/Android/sdk/platform-tools:$PATH" >> $GITHUB_ENV
+
+      - name: Accept licenses and install SDK
+        run: |
           yes | sdkmanager --licenses
           sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
 
@@ -76,7 +85,7 @@ jobs:
         working-directory: ./GrooveMate
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          ANDROID_HOME: /usr/local/share/android-sdk
+          ANDROID_HOME: $HOME/Android/sdk
           JAVA_HOME: /usr/local/opt/openjdk@17
         run: eas build -p android --profile preview --non-interactive --local
 
