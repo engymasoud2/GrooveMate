@@ -6,7 +6,7 @@ on:
       - "*"
 
 jobs:
-  # Job 1: Deploy FastAPI to Render
+  # Job 1: Deploy FastAPI to Render (Ubuntu)
   api:
     runs-on: ubuntu-latest
 
@@ -32,7 +32,7 @@ jobs:
         run: |
           curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
 
-  # Job 2: Build APK with Expo EAS
+  # Job 2: Build APK with Expo EAS locally (macOS)
   apk:
     runs-on: macos-latest
 
@@ -59,19 +59,29 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: eas whoami
 
-      - name: Build APK
+      - name: Install Android SDK
+        run: |
+          brew install --cask android-sdk
+          export ANDROID_HOME=/usr/local/share/android-sdk
+          export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH
+          yes | sdkmanager --licenses
+          sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
+
+      - name: Install Java JDK
+        run: brew install openjdk@17
+        env:
+          JAVA_HOME: /usr/local/opt/openjdk@17
+
+      - name: Build APK locally
         working-directory: ./GrooveMate
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-        run: |
-          eas build -p android --profile preview --non-interactive --local
-      
-      - name: List eas-build-local contents  
-        working-directory: ./GrooveMate
-        run: ls -R eas-build-local
+          ANDROID_HOME: /usr/local/share/android-sdk
+          JAVA_HOME: /usr/local/opt/openjdk@17
+        run: eas build -p android --profile preview --non-interactive --local
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: GrooveMate-APK
-          path: ./eas-build-local/**/*.apk
+          path: ./GrooveMate/eas-build-local/**/*.apk
