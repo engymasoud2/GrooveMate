@@ -65,9 +65,13 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: |
           eas build -p android --profile preview --non-interactive --local
+      
+      - name: List eas-build-local contents  
+        working-directory: ./GrooveMate
+        run: ls -R eas-build-local
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: GrooveMate-APK
-          path: ./eas-build-local/*/android.apk
+          path: ./eas-build-local/**/*.apk
