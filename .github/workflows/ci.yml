@@ -33,7 +33,7 @@ jobs:
           curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
 
   # Job 2: Build APK with Expo EAS
-  build-apk:
+  apk:
     runs-on: ubuntu-latest
 
     steps:
@@ -70,4 +70,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: GrooveMate-APK
-          path: ./GrooveMate/eas-build-local/**/*.apk
+          path: ./eas-build-local/*/android.apk
