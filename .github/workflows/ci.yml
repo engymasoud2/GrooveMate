@@ -46,17 +46,21 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
+        working-directory: ./GrooveMate
         run: npm install
 
       - name: Install EAS CLI
+        working-directory: ./GrooveMate
         run: npm install -g eas-cli
 
       - name: Authenticate with Expo
+        working-directory: ./GrooveMate
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: eas whoami
 
       - name: Build APK
+        working-directory: ./GrooveMate
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: |
