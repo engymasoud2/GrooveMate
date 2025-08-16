@@ -34,7 +34,7 @@ jobs:
 
   # Job 2: Build APK with Expo EAS
   apk:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - name: Checkout repository
