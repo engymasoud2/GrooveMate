@@ -5,6 +5,7 @@ export default function Home({ navigation }: any) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome to GrooveMate!!</Text>
+      <Text style={styles.title}>This is more like a details page with the project goals and details </Text>
 
       <TouchableOpacity
         style={styles.blockButton}
