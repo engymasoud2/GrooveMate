@@ -2,8 +2,8 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import hashlib  # ✅ For SHA2 hashing
-from api import database, models
+import hashlib  # SHA2 hashing
+import database, models
 
 app = FastAPI()
 
