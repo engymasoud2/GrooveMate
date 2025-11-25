@@ -57,6 +57,13 @@ export default function SignIn({ navigation }: any) {
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Text style={styles.backText}>← Go Back</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.cornerButton}
+        activeOpacity={0.5}
+        onPress={() => navigation.navigate('mainPage')}>
+        <Text style={styles.buttonText}>Tester Mode</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -95,6 +102,16 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderRadius: 10,
     alignItems: "center",
+  },
+  cornerButton: {
+    width: "30%",
+    backgroundColor: "#b0b23aff",
+    paddingVertical: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    position: "absolute",
+    bottom: 20,
+    right: 20,
   },
   buttonText: {
     color: "#fff",
