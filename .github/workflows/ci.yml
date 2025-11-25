@@ -22,7 +22,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/my-fastapi-app:latest ./api
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/my-fastapi-app:latest .
 
       - name: Push Docker image
         run: |
